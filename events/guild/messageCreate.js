@@ -1,16 +1,17 @@
 module.exports = async (Discord, client, message) => {
-    const prefix = process.env.PREFIX;
+    const prefix = process.env.PREFIX; // Get the prefix from the config file
     
-    const args = message.content.slice(prefix.length).split(/ +/);
+    const args = message.content.slice(prefix.length).split(/ +/); // Get the arguments from the message
     const cmd = args.shift().toLowerCase();
 
-    const command = client.commands.get(cmd) || client.commands.find(a => a.aliases && a.aliases.includes(cmd));
+    const command = client.commands.get(cmd) || client.commands.find(a => a.aliases && a.aliases.includes(cmd)); // Get the command from the client
     if (message.content[0] !== prefix) return;
     if (!command) {
         console.log(`${message.author.tag} tried to use a command that doesn't exist: ${cmd}`);
         return;
     }
 
+    // Permission Handling
     const validPermissions = [
         "CREATE_INSTANT_INVITE",
         "KICK_MEMBERS",
@@ -61,6 +62,7 @@ module.exports = async (Discord, client, message) => {
         }
     } 
 
+    // Try to execute the command
     try {
         command.execute(message, args, client, Discord)
     } catch (err) {
