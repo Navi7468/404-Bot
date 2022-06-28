@@ -11,7 +11,6 @@ const client = new Discord.Client(
         "DIRECT_MESSAGES"
     ]}
 );
-const mongoose = require('mongoose');
 const fs = require('fs');
 const ms = require('ms');
 
@@ -22,14 +21,6 @@ client.events = new Discord.Collection();
 
 ['commandHandler', 'eventHandler'].forEach(handler =>{
     require(`./handlers/${handler}`)(client, Discord);
-});
-
-
-mongoose.connect(process.env.MONGODB_URI, {
-}).then(() => {
-    console.log('Connected to Database');
-}).catch(err => {
-    console.log(err);
 });
 
 
